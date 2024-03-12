@@ -306,14 +306,14 @@ insert into Skuespill (Tittel, Starttid, Varighet, ForfatterID, SalNr) values ('
 -- Område
 
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Hovedscenen'), 'Parkett');
-insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Hovedscenen'), 'Venstre Galleri'); -- usikker
-insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Hovedscenen'), 'Høyre Galleri'); 
+insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Hovedscenen'), 'Galleri');
 
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Gamle scene'), 'Parkett');
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Gamle scene'), 'Balkong');
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Gamle scene'), 'Galleri');
 -- samme ^^
 
+------------
 
 -- Forestilling
 
