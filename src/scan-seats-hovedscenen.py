@@ -30,6 +30,7 @@ def main():
             startTime = cursor.execute("SELECT Starttid FROM Skuespill WHERE Skuespill_ID = ?", (playID,)).fetchone()[0]
             customerID = 1
             orderDate = '2024-02-02'
+            orderTime = '12:30:00'
             
             if (cursor.execute("SELECT * FROM Rad").fetchone() == None):
                 rowID = 1
@@ -46,18 +47,10 @@ def main():
             else:
                 ticketID = cursor.execute("SELECT MAX(BillettID) FROM Billett").fetchone()[0]+1
             
-            if (cursor.execute("SELECT * FROM Forestilling").fetchone() == None):
-                showID = 1
-            else:
-                showID = cursor.execute("SELECT MAX(ForestillingID) FROM Forestilling").fetchone()[0]+1
-            
             if (cursor.execute("SELECT * FROM Billettkjop").fetchone() == None):
                 orderNr = 1
             else:
                 orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1 # problem! if run multiple times, we'll get multiple orders of same seats to same show
-
-            cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, startTime, customerID, playID))
-            con.commit()
             
             lines = f.readlines()
             for line in lines:
@@ -67,7 +60,8 @@ def main():
                     for word in words:
                         if len(word) == 10 and word[4] == "-" and word[7] == "-":
                             date = word
-                            cursor.execute("INSERT INTO Forestilling (ForestillingID, Dato, Skuespill_ID) VALUES (?, ?, ?)", (showID, date, playID))
+                            showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
+                            cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
                             con.commit()
                             #print(date)
                         
@@ -93,7 +87,7 @@ def main():
                             con.commit()
                             cursor.execute("INSERT INTO Billett (TypeID, KjopNr) VALUES (?, ?)", (typeID, orderNr))
                             con.commit()
-                            cursor.execute("INSERT INTO ForestillingBillett (ForestillingID, BillettID, SeteID) VALUES (?, ?, ?)", (playID, ticketID, seatID))
+                            cursor.execute("INSERT INTO ForestillingBillett (ForestillingID, BillettID, SeteID) VALUES (?, ?, ?)", (showID, ticketID, seatID))
                             con.commit()
                             ticketID += 1
                             seatID += 1
