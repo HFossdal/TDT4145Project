@@ -11,6 +11,8 @@ def main():
     # The second command line argument is expected to be the filename
     filename = sys.argv[1]
 
+    # ANTALL INNSETTINGER AV SETER MÅ MATCHE ANTALL SETER I SAL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     # Open the file
     try:
         con = sqlite3.connect('src/DB2.db')
