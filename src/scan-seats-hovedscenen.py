@@ -28,7 +28,6 @@ def main():
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Hovedscenen'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Kongsemnene'").fetchone()[0]
             startTime = cursor.execute("SELECT Starttid FROM Skuespill WHERE Skuespill_ID = ?", (playID,)).fetchone()[0]
-            showID = cursor.execute("SELECT MAX(ForestillingID) FROM Forestilling").fetchone()[0]+1
             customerID = 1
             orderDate = '2024-02-02'
             
@@ -48,9 +47,9 @@ def main():
                 ticketID = cursor.execute("SELECT MAX(BillettID) FROM Billett").fetchone()[0]+1
             
             if (cursor.execute("SELECT * FROM Forestilling").fetchone() == None):
-                playID = 1
+                showID = 1
             else:
-                playID = cursor.execute("SELECT MAX(ForestillingID) FROM Forestilling").fetchone()[0]+1
+                showID = cursor.execute("SELECT MAX(ForestillingID) FROM Forestilling").fetchone()[0]+1
             
             if (cursor.execute("SELECT * FROM Billettkjop").fetchone() == None):
                 orderNr = 1
