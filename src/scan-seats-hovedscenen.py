@@ -61,6 +61,7 @@ def main():
             lines = f.readlines()
             for line in lines:
                 line = line[:-1]
+                
                 if "Dato" in line:
                     words = line.split()
                     for word in words:
@@ -87,7 +88,7 @@ def main():
                             seatNr -= 1
                             
                         elif c == "1":
-                            print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
+                            #print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
                             cursor.execute("INSERT INTO Sete (SeteID, SeteNr, RadID) VALUES (?, ?, ?)", (seatID, seatNr, rowID))
                             con.commit()
                             cursor.execute("INSERT INTO Billett (TypeID, KjopNr) VALUES (?, ?)", (typeID, orderNr))

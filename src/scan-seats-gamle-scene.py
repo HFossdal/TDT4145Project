@@ -58,8 +58,10 @@ def main():
             
             lines = f.readlines()
             for line in lines:
+                # Removes newline(\n)
                 line = line[:-1]
 
+                # Sets the date
                 if "Dato" in line:
                     words = line.split()
                     for word in words:
@@ -68,7 +70,8 @@ def main():
                             cursor.execute("INSERT INTO Forestilling (ForestillingID, Dato, Skuespill_ID) VALUES (?, ?, ?)", (showID, date, playID))
                             con.commit()
                             #print(date)
-                        
+                
+                # Sets the area        
                 elif line in areas:
                     area = line
                     if area == "Galleri":
@@ -84,14 +87,17 @@ def main():
                     con.commit()
                     seatNr = 1
                     
+                    # Goes through every seat in a row
                     for c in line:
+                        # Seat is free
                         if c == "0":
                             #print(f"Seat: free, number: {seatNr}, area: {area}, date: {date}")
                             cursor.execute("INSERT INTO Sete (SeteNr, RadID) VALUES (?, ?)", (seatNr, rowID))
                             con.commit()
                             seatID += 1
                             seatNr += 1
-                            
+                        
+                        # Seat is occupied    
                         elif c == "1":
                             print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
                             cursor.execute("INSERT INTO Sete (SeteID, SeteNr, RadID) VALUES (?, ?, ?)", (seatID, seatNr, rowID))
@@ -103,7 +109,8 @@ def main():
                             ticketID += 1
                             seatID += 1
                             seatNr += 1
-                            
+                        
+                        # Not a seat    
                         elif c == "x":
                             seatID += 1
                             seatNr += 1
