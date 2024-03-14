@@ -20,17 +20,8 @@ def main():
         with open(filename, "r") as f:
             
             typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
-            
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Størst av alt er kjærligheten'").fetchone()[0]
-            
             showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
-
-            rowID = cursor.execute("""SELECT MIN(RadID)
-                                    FROM Rad INNER JOIN Omrade ON (Rad.Omradenavn = Omrade.Navn AND Rad.SalNr = Omrade.SalNr)
-                                    WHERE Omrade.SalNr = (SELECT SalNr 
-                                                          FROM Sal 
-                                                          WHERE Sal.Navn = 'Gamle scene')
-                                   """).fetchone()[0]
             
             seatID = cursor.execute ("""SELECT MIN(seteID)
                                     FROM Sete INNER JOIN Rad Using (RadID)
@@ -56,23 +47,17 @@ def main():
             lines = f.readlines()
             for line in lines:
                 line = line[:-1]
+
+                # Ignore date info
+                if "Dato" in line:
+                    continue
                 
-                # Sets the area
-                if line in areas:
-                    area = line
-                    if area == "Galleri":
-                        rowNr = 3
-                    elif area == "Balkong":
-                        rowNr = 4
-                    elif area == "Parkett":
-                        rowNr = 10
+                # Ignore area info
+                elif line in areas:
+                    continue
                         
                 elif line.count("0") < 9:
-                    rowID += 1
-                    rowNr -= 1
                     seatID += len(line)
-                    seatNr = 1
-
                     continue
                 
                 # Goes through every seat in a row
@@ -88,19 +73,16 @@ def main():
                         con.commit()
                         seatCounter += 1
                         seatID += 1
-                        seatNr += 1
                         ticketID += 1
                     
                     # Seat is occupied    
                     elif c == "1":
                         ticketID += 1
                         seatID += 1
-                        seatNr += 1
                     
                     # Not a seat    
                     elif c == "x":
                         seatID += 1
-                        seatNr += 1  
                     
     except FileNotFoundError:
         print(f"File not found: {filename}")
