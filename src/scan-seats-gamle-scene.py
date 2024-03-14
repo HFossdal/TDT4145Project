@@ -23,7 +23,7 @@ def main():
             typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Gamle scene'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Størst av alt er kjærligheten'").fetchone()[0]
-            customerID = 1
+            customerID = 2
             orderDate = '2024-02-02'
             orderTime = '15:44:00'
             
@@ -59,6 +59,8 @@ def main():
                         if len(word) == 10 and word[4] == "-" and word[7] == "-":
                             date = word
                             showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
+                            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,)).fetchone()[0]
+                            con.commit()
                             cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
                             con.commit()
                             #print(date)
