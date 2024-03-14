@@ -42,7 +42,7 @@ def main():
             else:
                 orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1 # problem! if run multiple times, we'll get multiple orders of same seats to same show
 
-            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,)).fetchone()[0]
+            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,))
             con.commit()
             cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
             con.commit()
