@@ -9,7 +9,8 @@ def main():
     orderDate = '2024-02-02'
     orderTime = '17:15:00'
     areas = ['Galleri', 'Balkong', 'Parkett']
-    customerID = 1
+    customerID = 3
+    orderSum = 0;
     
 
     try:
@@ -41,6 +42,8 @@ def main():
             else:
                 orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1 # problem! if run multiple times, we'll get multiple orders of same seats to same show
 
+            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,)).fetchone()[0]
+            con.commit()
             cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
             con.commit()
 
@@ -71,6 +74,10 @@ def main():
                         con.commit()
                         cursor.execute("INSERT INTO ForestillingBillett (ForestillingID, BillettID, SeteID) VALUES (?, ?, ?)", (showID, ticketID, seatID))
                         con.commit()
+                        orderSum += cursor.execute("""SELECT Pris 
+                                                   FROM HarBillettType 
+                                                   WHERE TypeID = ? AND Skuespill_ID = ?""", (typeID, playID)
+                                                   ).fetchone()[0]
                         seatCounter += 1
                         seatID += 1
                         ticketID += 1
@@ -83,6 +90,7 @@ def main():
                     # Not a seat    
                     elif c == "x":
                         seatID += 1
+            print(f"Order sum: {orderSum}")
                     
     except FileNotFoundError:
         print(f"File not found: {filename}")
