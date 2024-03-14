@@ -5,7 +5,7 @@ def main():
 
     # Check if a filename was provided
     if len(sys.argv) < 2:
-        print("Usage: python script.py filename.txt")
+        print("Usage: python src/scriptname.py data/filename.txt")
         sys.exit(1)
 
     # The second command line argument is expected to be the filename
@@ -24,9 +24,9 @@ def main():
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Gamle scene'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Størst av alt er kjærligheten'").fetchone()[0]
             startTime = cursor.execute("SELECT Starttid FROM Skuespill WHERE Skuespill_ID = ?", (playID,)).fetchone()[0]
-            showID = cursor.execute("SELECT MAX(ForestillingID) FROM Forestilling").fetchone()[0]+1
             customerID = 1
             orderDate = '2024-02-02'
+            orderTime = '15:44:00'
             
             if (cursor.execute("SELECT * FROM Rad").fetchone() == None):
                 rowID = 1
@@ -43,18 +43,10 @@ def main():
             else:
                 ticketID = cursor.execute("SELECT MAX(BillettID) FROM Billett").fetchone()[0]+1
             
-            if (cursor.execute("SELECT * FROM Forestilling").fetchone() == None):
-                playID = 1
-            else:
-                playID = cursor.execute("SELECT MAX(ForestillingID) FROM Forestilling").fetchone()[0]+1
-            
             if (cursor.execute("SELECT * FROM Billettkjop").fetchone() == None):
                 orderNr = 1
             else:
                 orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1 # problem! if run multiple times, we'll get multiple orders of same seats to same show
-
-            cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, startTime, customerID, playID))
-            con.commit()
             
             lines = f.readlines()
             for line in lines:
@@ -67,7 +59,8 @@ def main():
                     for word in words:
                         if len(word) == 10 and word[4] == "-" and word[7] == "-":
                             date = word
-                            cursor.execute("INSERT INTO Forestilling (ForestillingID, Dato, Skuespill_ID) VALUES (?, ?, ?)", (showID, date, playID))
+                            showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
+                            cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
                             con.commit()
                             #print(date)
                 
@@ -104,7 +97,7 @@ def main():
                             con.commit()
                             cursor.execute("INSERT INTO Billett (TypeID, KjopNr) VALUES (?, ?)", (typeID, orderNr))
                             con.commit()
-                            cursor.execute("INSERT INTO ForestillingBillett (ForestillingID, BillettID, SeteID) VALUES (?, ?, ?)", (playID, ticketID, seatID))
+                            cursor.execute("INSERT INTO ForestillingBillett (ForestillingID, BillettID, SeteID) VALUES (?, ?, ?)", (showID, ticketID, seatID))
                             con.commit()
                             ticketID += 1
                             seatID += 1
