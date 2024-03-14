@@ -59,7 +59,7 @@ def main():
                         if len(word) == 10 and word[4] == "-" and word[7] == "-":
                             date = word
                             showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
-                            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,)).fetchone()[0]
+                            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,))
                             con.commit()
                             cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
                             con.commit()
