@@ -18,8 +18,8 @@ def main():
         
         # Read the input file
         with open(filename, "r") as f:
-            areas = ["Galleri", "Balkong", "Parkett"]
-            ticketType = "Ordinær"
+            areas = ['Galleri', 'Balkong', 'Parkett']
+            ticketType = 'Ordinær'
             typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Gamle scene'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Størst av alt er kjærligheten'").fetchone()[0]

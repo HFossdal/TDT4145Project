@@ -20,8 +20,8 @@ def main():
         with open(filename, "r") as f:
             seatNr = 524           # Number of seats in the hall.
             rowNr = 22             #  Number of rows in the hall. We assume each line, that is, each "row" in the Gallery gets its own row number. 
-            areas = ["Galleri", "Parkett"]
-            ticketType = "Ordinær"
+            areas = ['Galleri', 'Parkett']
+            ticketType = 'Ordinær'
             typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Hovedscenen'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Kongsemnene'").fetchone()[0]
