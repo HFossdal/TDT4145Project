@@ -23,7 +23,6 @@ def main():
             typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Gamle scene'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Størst av alt er kjærligheten'").fetchone()[0]
-            startTime = cursor.execute("SELECT Starttid FROM Skuespill WHERE Skuespill_ID = ?", (playID,)).fetchone()[0]
             customerID = 1
             orderDate = '2024-02-02'
             orderTime = '15:44:00'
