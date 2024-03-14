@@ -5,7 +5,7 @@ def main():
 
     # Check if a filename was provided
     if len(sys.argv) < 2:
-        print("Usage: python src/scriptname.py data/filename.txt")
+        print("Usage: python3 src/scriptname.py data/filename.txt")
         sys.exit(1)
 
     # The second command line argument is expected to be the filename
