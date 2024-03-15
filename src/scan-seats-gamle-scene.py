@@ -93,7 +93,7 @@ def main():
                         
                         # Seat is occupied    
                         elif c == "1":
-                            print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
+                            #print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
                             cursor.execute("INSERT INTO Sete (SeteID, SeteNr, RadID) VALUES (?, ?, ?)", (seatID, seatNr, rowID))
                             con.commit()
                             cursor.execute("INSERT INTO Billett (TypeID, KjopNr) VALUES (?, ?)", (typeID, orderNr))
@@ -116,8 +116,11 @@ def main():
         con.close()
                    
     except FileNotFoundError:
-        print(f"File not found: {filename}")
+        print(f"Fil ikke funnet: {filename}")
         sys.exit(1)
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return
 
 if __name__ == "__main__":
     main()

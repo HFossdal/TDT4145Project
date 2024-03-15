@@ -90,10 +90,14 @@ def main():
                     # Not a seat    
                     elif c == "x":
                         seatID += 1
-            print(f"Order sum: {orderSum}")
+            print(f"Sum: {orderSum}")
+        con.close()
                     
     except FileNotFoundError:
-        print(f"File not found: {filename}")
+        print(f"Fil ikke funnet: {filename}")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return
         
 if __name__ == "__main__":
     main()
