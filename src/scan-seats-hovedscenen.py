@@ -5,7 +5,7 @@ def main():
 
     # Check if a filename was provided
     if len(sys.argv) < 2:
-        print("Usage: python src/scriptname.py data/filename.txt")
+        print("Usage: python3 src/scriptname.py data/filename.txt")
         sys.exit(1)
 
     # The second command line argument is expected to be the filename
@@ -22,12 +22,11 @@ def main():
         with open(filename, "r") as f:
             seatNr = 524           # Number of seats in the hall.
             rowNr = 22             #  Number of rows in the hall. We assume each line, that is, each "row" in the Gallery gets its own row number. 
-            areas = ["Galleri", "Parkett"]
-            ticketType = "Ordinær"
+            areas = ['Galleri', 'Parkett']
+            ticketType = 'Ordinær'
             typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
             hallNr = cursor.execute("SELECT SalNr FROM Sal WHERE Navn = 'Hovedscenen'").fetchone()[0]
             playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = 'Kongsemnene'").fetchone()[0]
-            startTime = cursor.execute("SELECT Starttid FROM Skuespill WHERE Skuespill_ID = ?", (playID,)).fetchone()[0]
             customerID = 1
             orderDate = '2024-02-02'
             orderTime = '12:30:00'
@@ -55,12 +54,15 @@ def main():
             lines = f.readlines()
             for line in lines:
                 line = line[:-1]
+                
                 if "Dato" in line:
                     words = line.split()
                     for word in words:
                         if len(word) == 10 and word[4] == "-" and word[7] == "-":
                             date = word
                             showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
+                            cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,))
+                            con.commit()
                             cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
                             con.commit()
                             #print(date)
@@ -82,7 +84,7 @@ def main():
                             seatNr -= 1
                             
                         elif c == "1":
-                            print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
+                            #print(f"Seat: occupied, seatNr: {seatNr}, rowNr: {rowNr}, area: {area}, date: {date}")
                             cursor.execute("INSERT INTO Sete (SeteID, SeteNr, RadID) VALUES (?, ?, ?)", (seatID, seatNr, rowID))
                             con.commit()
                             cursor.execute("INSERT INTO Billett (TypeID, KjopNr) VALUES (?, ?)", (typeID, orderNr))
