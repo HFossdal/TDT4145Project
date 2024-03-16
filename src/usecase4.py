@@ -1,15 +1,15 @@
 import sqlite3
 
 
-def print_shows_on_date(date):
+def printShowsOnDate(date):
     """
     Print shows for a given date and also lists how many tickets that are sold.
     """
     try:
         con = sqlite3.connect("src/DB2.db")
         cursor = con.cursor()
-    except:
-        print("Error: Could not connect to the database.")
+    except Exception as e:
+        print(f"Error: {str(e)}")
         return
     
     
@@ -20,34 +20,39 @@ def print_shows_on_date(date):
     shows = cursor.fetchall()
 
     if len(shows) == 0:
-        print("No shows found for the given date.")
+        print("Ingen forestillinger funnet for den angitte datoen\n")
         return
     
+    print(f'{"Teaterstykke".center(35)} | {"Dato".center(35)} | {"Billetter solgt".center(35)}')
+    print("   " + "-" * 35 * 3)
 
     for show in shows:
-        title, date, forestilling_id = show
+        title, date, showID = show
         
         cursor.execute("""
                        SELECT COUNT(*) 
                        FROM Billett 
                        INNER JOIN ForestillingBillett on Billett.BillettID = ForestillingBillett.BillettID 
-                       WHERE ForestillingBillett.ForestillingID = ?""", (forestilling_id,))
-        tickets_sold = cursor.fetchone()[0]
+                       WHERE ForestillingBillett.ForestillingID = ?""", (showID,))
+        ticketsSold = cursor.fetchone()[0]
         
-        print(f"Show: {title}, Date: {date}, Tickets sold: {tickets_sold}")
-        
-       
-
+        print(f'{title.center(35)} | {date.center(35)} | {str(ticketsSold).center(35)}')
     
-
     con.close()
-
-
+    print()
 
 
 def main():
-    date = input("Enter date (YYYY-MM-DD): ")
-    print_shows_on_date(date)
+    while(1):
+        date = input("Angi dato (YYYY-MM-DD) eller skriv Q for å avslutte: ")
+        if (date.upper() == 'Q'):
+            return
+        elif len(date) == 10 and date[4] == "-" and date[7] == "-" and date[0:4].isdigit() and date[5:7].isdigit() and date[8:10].isdigit():
+            printShowsOnDate(date)
+            continue
+        print("Ugyldig dato. Dato må angis på formen YYYY-MM-DD")
+        print()
+        continue
 
 main()
 

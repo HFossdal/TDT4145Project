@@ -108,6 +108,9 @@ def main():
     except FileNotFoundError:
         print(f"File not found: {filename}")
         sys.exit(1)
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return
 
 if __name__ == "__main__":
     main()
