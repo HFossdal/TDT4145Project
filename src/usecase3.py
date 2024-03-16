@@ -90,7 +90,7 @@ def main():
                     # Not a seat    
                     elif c == "x":
                         seatID += 1
-            print(f"Sum: {orderSum}")
+            print(f"Sum 9 voksenbiletter: {orderSum}")
         con.close()
                     
     except FileNotFoundError:

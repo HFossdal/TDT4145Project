@@ -290,9 +290,7 @@ insert into Forfatter (Navn) values ('Jonas Corell Petersen');
 -- Sal
 
 insert into Sal (Navn, AntallPlasser) values ('Hovedscenen', 516);
--- bare sette inn ID?^ Skal jo endres dersom SkuespillID endres (eller dette ikke er mulig)
 insert into Sal (Navn, AntallPlasser) values ('Gamle scene', 332);
--- samme ^^
 insert into Sal (Navn, AntallPlasser) values ('Studioscenen', 150);
 insert into Sal (Navn, AntallPlasser) values ('Teaterkjelleren', 60);
 insert into Sal (Navn, AntallPlasser) values ('Teaterkafeen', 100);
@@ -311,7 +309,6 @@ insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn =
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Gamle scene'), 'Parkett');
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Gamle scene'), 'Balkong');
 insert into Omrade (SalNr, Navn) values ((SELECT SalNr FROM Sal WHERE Sal.Navn = 'Gamle scene'), 'Galleri');
--- samme ^^
 
 -- Forestilling
 
@@ -326,7 +323,6 @@ insert into Forestilling (Dato, Skuespill_ID) values ('2024-02-07', (SELECT Skue
 insert into Forestilling (Dato, Skuespill_ID) values ('2024-02-12', (SELECT Skuespill_ID FROM Skuespill WHERE Skuespill.Tittel = 'Størst av alt er kjærligheten'));
 insert into Forestilling (Dato, Skuespill_ID) values ('2024-02-13', (SELECT Skuespill_ID FROM Skuespill WHERE Skuespill.Tittel = 'Størst av alt er kjærligheten'));
 insert into Forestilling (Dato, Skuespill_ID) values ('2024-02-14', (SELECT Skuespill_ID FROM Skuespill WHERE Skuespill.Tittel = 'Størst av alt er kjærligheten'));
--- samme ^^
 
 -- Billettype
 
@@ -376,56 +372,20 @@ insert into Person (PersonID, Navn) values (17, 'Trond-Ove Skrødal');
 insert into Person (PersonID, Navn) values (18, 'Natalie Grøndahl Tangen');
 insert into Person (PersonID, Navn) values (19, 'Åsmund Flaten');
 
--- Kunsteriske lag Kongsemnene
+-- Kunsterisk lag Kongsemnene
 insert into Person (Navn) values ('Yury Butusov');
 insert into Person (Navn) values ('Aleksandr Shishkin-Hokusai');
 insert into Person (Navn) values ('Eivind Myren');
 insert into Person (Navn) values ('Mina Rype Stokke');
-/*
--- Produksjonslag Kongsemnene
-insert into Person (Navn) values ('Randi Andersen Gafseth');
-insert into Person (Navn) values ('Emily F. Luthentun');
-insert into Person (Navn) values ('Ann Eli Aasgård');
-insert into Person (Navn) values ('Marianne Aunvik');
-insert into Person (Navn) values ('Martin Didrichsen');
-insert into Person (Navn) values ('Are Skarra Kvitnes');
-insert into Person (Navn) values ('Roger Indgul');
-insert into Person (Navn) values ('Anders Schille');
-insert into Person (Navn) values ('Oliver Løding');
-insert into Person (Navn) values ('Harald Soltvedt');
-insert into Person (Navn) values ('Karl-Martin Hoddevik');
-insert into Person (Navn) values ('Geir Dyrdal');
-insert into Person (Navn) values ('Trine Bjørhusdal');
-insert into Person (Navn) values ('Renee Desmond');
-insert into Person (Navn) values ('Charlotta Winger');
-insert into Person (Navn) values ('Egil Buseth');
-insert into Person (Navn) values ('Per Arne Johansen');
-insert into Person (Navn) values ('Toril Skipnes');
-insert into Person (Navn) values ('Anita Gundersen');
-*/
+
 -- Kunstnerisk lag Størst av alt er kjærligheten
 insert into Person (Navn) values ('Jonas Corell Petersen');
 insert into Person (Navn) values ('David Gehrt');
 insert into Person (Navn) values ('Gaute Tønder');
 insert into Person (Navn) values ('Magnus Mikaelsen');
 insert into Person (Navn) values ('Kristoffer Spender');
-/*
--- Produksjonslag Størst av alt er kjærligheten (noe overlapp med Kongsemnene legges ikke til på nytt)
-insert into Person (Navn) values ('Line Åmli');
-insert into Person (Navn) values ('Lars Magnus Krogh Utne');
-insert into Person (Navn) values ('Livinger Ferner Diesen');
-insert into Person (Navn) values ('Espen Høyem');
-insert into Person (Navn) values ('Kjersti Eckhoff');
-insert into Person (Navn) values ('Ida Marie Brønstad');
-insert into Person (Navn) values ('Jan Magne Høynes');
-insert into Person (Navn) values ('Siril Gaare');
-insert into Person (Navn) values ('Stein Jørgen Øien');
-insert into Person (Navn) values ('Steffen Telstad');
-insert into Person (Navn) values ('Erik Chan');
-insert into Person (Navn) values ('Olav Rui');
-*/
-insert into Person (Navn) values ('Elisabeth Egseth Hansen'); -- teaterets direktør / teatersjef
 
+insert into Person (Navn) values ('Elisabeth Egseth Hansen'); -- teaterets direktør / teatersjef
 
 insert into Skuespiller (PersonID) values (1);
 insert into Skuespiller (PersonID) values (2);
@@ -457,39 +417,6 @@ insert into Ansatt (PersonID, AnsattStatus) values (26, 'Fast');
 insert into Ansatt (PersonID, AnsattStatus) values (27, 'Fast');
 insert into Ansatt (PersonID, AnsattStatus) values (28, 'Fast');
 insert into Ansatt (PersonID, AnsattStatus) values (29, 'Fast');
-/* -- Ansatte i produksjonslag
-insert into Ansatt (PersonID, AnsattStatus) values (30, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (31, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (32, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (33, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (34, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (35, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (36, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (37, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (38, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (39, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (40, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (41, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (42, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (43, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (44, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (45, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (46, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (47, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (48, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (49, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (50, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (51, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (52, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (53, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (54, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (55, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (56, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (57, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (58, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (59, 'Fast');
-insert into Ansatt (PersonID, AnsattStatus) values (60, 'Fast');
-*/
 
 -- Rolle
 
@@ -621,25 +548,6 @@ insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (5, 'Lysdesign');
 insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (6, 'Dramaturg');
 insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (7, 'Musikalsk ansvarlig');
 
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (8, 'Inspisient');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (9, 'Sufflør');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (10, 'Maskeansvarlig');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (11, 'Teknisk koordinator');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (12, 'Lysmester');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (13, 'Lysbordoperatør');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (14, 'Lyddesign');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (15, 'Lydbordoperatør');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (16, 'Rekvisittansvarlig');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (17, 'Sceneansvarlig');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (18, 'Stykkeansvarlig kostyme');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (19, 'Stykkeansvarlig påkledere');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (20, 'Tapetserer');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (21, 'Snekker');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (22, 'Metallarbeider');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (23, 'Malersal');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (24, 'Stykkeansvarlig rekvisitt');
-insert into SkuespillOppgave (OppgaveID, Beskrivelse) values (25, 'Videodesign');
-
 -- ErTildelt
 
 insert into ErTildelt (AnsattID, OppgaveID) values (20, 1);
@@ -648,45 +556,14 @@ insert into ErTildelt (AnsattID, OppgaveID) values (21, 3);
 insert into ErTildelt (AnsattID, OppgaveID) values (21, 4);
 insert into ErTildelt (AnsattID, OppgaveID) values (22, 5);
 insert into ErTildelt (AnsattID, OppgaveID) values (23, 6);
-insert into ErTildelt (AnsattID, OppgaveID) values (24, 8);
-insert into ErTildelt (AnsattID, OppgaveID) values (25, 8);
-insert into ErTildelt (AnsattID, OppgaveID) values (26, 9);
-insert into ErTildelt (AnsattID, OppgaveID) values (27, 10);
-insert into ErTildelt (AnsattID, OppgaveID) values (28, 11);
-insert into ErTildelt (AnsattID, OppgaveID) values (29, 12);
-/*
-insert into ErTildelt (AnsattID, OppgaveID) values (30, 13);
-insert into ErTildelt (AnsattID, OppgaveID) values (31, 14);
-insert into ErTildelt (AnsattID, OppgaveID) values (32, 15);
-insert into ErTildelt (AnsattID, OppgaveID) values (33, 15);
-insert into ErTildelt (AnsattID, OppgaveID) values (34, 16);
-insert into ErTildelt (AnsattID, OppgaveID) values (35, 17);
-insert into ErTildelt (AnsattID, OppgaveID) values (36, 18);
-insert into ErTildelt (AnsattID, OppgaveID) values (37, 19);
-insert into ErTildelt (AnsattID, OppgaveID) values (38, 20);
-insert into ErTildelt (AnsattID, OppgaveID) values (39, 21);
-insert into ErTildelt (AnsattID, OppgaveID) values (40, 22);
-insert into ErTildelt (AnsattID, OppgaveID) values (41, 23);
-insert into ErTildelt (AnsattID, OppgaveID) values (42, 23);
-insert into ErTildelt (AnsattID, OppgaveID) values (43, 1);
-insert into ErTildelt (AnsattID, OppgaveID) values (44, 3);
-insert into ErTildelt (AnsattID, OppgaveID) values (44, 4);
-insert into ErTildelt (AnsattID, OppgaveID) values (45, 7);
-insert into ErTildelt (AnsattID, OppgaveID) values (46, 5);
-insert into ErTildelt (AnsattID, OppgaveID) values (47, 6);
-insert into ErTildelt (AnsattID, OppgaveID) values (48, 8);
-insert into ErTildelt (AnsattID, OppgaveID) values (49, 9);
-insert into ErTildelt (AnsattID, OppgaveID) values (50, 10);
-insert into ErTildelt (AnsattID, OppgaveID) values (51, 24);
-insert into ErTildelt (AnsattID, OppgaveID) values (52, 18);
-insert into ErTildelt (AnsattID, OppgaveID) values (53, 19);
-insert into ErTildelt (AnsattID, OppgaveID) values (54, 14);
-insert into ErTildelt (AnsattID, OppgaveID) values (55, 14);
-insert into ErTildelt (AnsattID, OppgaveID) values (56, 25);
-insert into ErTildelt (AnsattID, OppgaveID) values (57, 13);
-insert into ErTildelt (AnsattID, OppgaveID) values (58, 17);
-insert into ErTildelt (AnsattID, OppgaveID) values (59, 21);
-*/
+insert into ErTildelt (AnsattID, OppgaveID) values (24, 1);
+insert into ErTildelt (AnsattID, OppgaveID) values (25, 3);
+insert into ErTildelt (AnsattID, OppgaveID) values (25, 4);
+insert into ErTildelt (AnsattID, OppgaveID) values (26, 7);
+insert into ErTildelt (AnsattID, OppgaveID) values (27, 5);
+insert into ErTildelt (AnsattID, OppgaveID) values (28, 6);
+
+
 -- Inneholder
 
 insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 1);
@@ -695,22 +572,6 @@ insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 3);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 4);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 5);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 6);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 8);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 9);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 10);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 11);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 12);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 13);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 14);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 15);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 16);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 17);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 18);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 19);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 20);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 21);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 22);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (1, 23);
 
 insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 1);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 3);
@@ -718,18 +579,8 @@ insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 4);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 5);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 6);
 insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 7);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 8);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 9);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 10);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 24);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 17);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 18);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 13);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 25);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 20);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 21);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 22);
-insert into Inneholder (Skuespill_ID, OppgaveID) values (2, 23);
+
+-- OppsetningAvSkuespill
 
 insert into OppsetningAvSkuespill(Skuespill_ID, RolleID, SkuespillerID) values (1, 1, 1);
 insert into OppsetningAvSkuespill(Skuespill_ID, RolleID, SkuespillerID) values (1, 2, 2);
