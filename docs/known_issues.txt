@@ -1,0 +1,8 @@
+src/scan-seats-gamle-scene.py:
+line 48: # problem! if run multiple times, we'll get multiple orders of same seats to same show
+
+src/scan-seats-hovedscenen.py:
+line 50: # problem! if run multiple times, we'll get multiple orders of same seats to same show
+
+src/usecase3.py:
+line 43: # problem! if run multiple times, we'll get multiple orders of same seats to same show

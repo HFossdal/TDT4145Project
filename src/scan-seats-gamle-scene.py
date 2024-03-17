@@ -45,7 +45,7 @@ def main():
             if (cursor.execute("SELECT * FROM Billettkjop").fetchone() == None):
                 orderNr = 1
             else:
-                orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1 # problem! if run multiple times, we'll get multiple orders of same seats to same show
+                orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1
             
             lines = f.readlines()
             for line in lines:
