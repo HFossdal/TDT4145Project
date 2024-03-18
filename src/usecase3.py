@@ -1,6 +1,8 @@
 import sqlite3
 
 def main():
+
+    # Define variables
     date = '2024-02-03'
     ticketType = 'Ordinær'
     orderDate = '2024-02-02'
@@ -10,9 +12,11 @@ def main():
     orderSum = 0
 
     try:
+        # Connect to the database
         con = sqlite3.connect('src/DB2.db')
         cursor = con.cursor()
-
+        
+        # Retrieve necessary IDs from the database
         typeID = cursor.execute("SELECT TypeID FROM Billettype WHERE Typenavn = ?", (ticketType,)).fetchone()[0]
         playID = cursor.execute("SELECT Skuespill_ID FROM Skuespill WHERE Tittel = ?", (playTitle,)).fetchone()[0]
         showID = cursor.execute("SELECT ForestillingID FROM Forestilling WHERE Dato = ? AND Skuespill_ID = ?", (date, playID)).fetchone()[0]
@@ -23,6 +27,7 @@ def main():
                                 WHERE Tittel = ?
                                 """, (playTitle,)).fetchone()[0]
 
+        # Generate ticket ID and order number
         if (cursor.execute("SELECT * FROM Billett").fetchone() == None):
             ticketID = 1
         else:
@@ -33,11 +38,15 @@ def main():
         else:
             orderNr = cursor.execute("SELECT MAX(KjopNr) FROM Billettkjop").fetchone()[0]+1
 
+        # Insert customer record into the database
         cursor.execute("INSERT INTO Kunde VALUES (?)", (customerID,))
         con.commit()
+
+        # Insert order record into the database
         cursor.execute("INSERT INTO Billettkjop (KjopNr, Dato, Tid, KundeID, ForestillingID) VALUES (?, ?, ?, ?, ?)", (orderNr, orderDate, orderTime, customerID, showID))
         con.commit()
 
+        # Retrieve the number of seats in each row of the hall
         numberOfSeatsInRows = cursor.execute("""
                                                 SELECT RadID, COUNT(RadID) AS AntallPlasser
                                                 FROM Sete
@@ -47,8 +56,12 @@ def main():
                                                 GROUP BY RadID
                                                 ORDER BY RadID DESC
                                             """, (hallNr,)).fetchall()
+        
+        # Iterate over each row and check seat availability
         for row in numberOfSeatsInRows:
             rowID, numberOfSeatsInRow = row
+
+            # check the number of occupied seats in the row
             if (cursor.execute(""" 
                                 SELECT COUNT(SeteID) AS OpptatteRadSeter
                                 FROM Sete
@@ -69,7 +82,11 @@ def main():
                                                     GROUP BY RadID
                                                     ORDER BY OpptatteRadSeter ASC
                                                     """, (showID, rowID)).fetchone()[0]
+            
+            #calculate the number of available seats in the row
             availableSeatsInRow = numberOfSeatsInRow - occupiedSeatsInRow
+            
+            # if there are at least nine available seats, the tickets are purchased
             if availableSeatsInRow >= 9:
                 seatsForPurcharse = cursor.execute("""
                                                     SELECT SeteID
@@ -84,11 +101,14 @@ def main():
                                                     ORDER BY RadID DESC
                                                    """, (showID, hallNr)).fetchmany(9)
                 
+                # Insert ticket records into the database
                 for seatID in seatsForPurcharse:
                     cursor.execute("INSERT INTO Billett (TypeID, KjopNr) VALUES (?, ?)", (typeID, orderNr))
                     con.commit()
                     cursor.execute("INSERT INTO ForestillingBillett (ForestillingID, BillettID, SeteID) VALUES (?, ?, ?)", (showID, ticketID, seatID[0]))
                     con.commit()
+
+                    # calculate the order sum
                     orderSum += cursor.execute("""
                                                 SELECT Pris 
                                                 FROM HarBillettType 
@@ -96,7 +116,8 @@ def main():
                                                 ).fetchone()[0]
                     ticketID += 1
             break
-
+        
+        # print the tot order sum
         print(f"Sum 9 voksenbiletter til Størst av alt er kjærligheten: {orderSum}")
         con.close()
                     

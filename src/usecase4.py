@@ -6,29 +6,35 @@ def printShowsOnDate(date):
     Print shows for a given date and also lists how many tickets that are sold.
     """
     try:
+
+        # connect to the database
         con = sqlite3.connect("src/DB2.db")
         cursor = con.cursor()
     except Exception as e:
         print(f"Error: {str(e)}")
         return
     
-    
+    # retrieving shows for the given date from the database
     cursor.execute("""
                    SELECT Skuespill.Tittel, Forestilling.Dato, Forestilling.ForestillingID 
                    FROM Skuespill INNER JOIN Forestilling ON Skuespill.Skuespill_ID = Forestilling.Skuespill_ID 
                    WHERE Dato = ?""", (date,))
     shows = cursor.fetchall()
 
+    # if no shows are found for the given date
     if len(shows) == 0:
         print("Ingen forestillinger funnet for den angitte datoen\n")
         return
     
+    # Print the header of the table
     print(f'{"Teaterstykke".center(35)} | {"Dato".center(35)} | {"Billetter solgt".center(35)}')
     print("   " + "-" * 35 * 3)
 
+    # Print the details of each show
     for show in shows:
         title, date, showID = show
         
+        # Count the number of tickets sold for each show
         cursor.execute("""
                        SELECT COUNT(*) 
                        FROM Billett 
