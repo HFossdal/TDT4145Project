@@ -117,7 +117,7 @@ def main():
                     ticketID += 1
             break
         
-        # print the tot order sum
+        # print the total order sum
         print(f"Sum 9 voksenbiletter til Størst av alt er kjærligheten: {orderSum}")
         con.close()
                     
