@@ -10,12 +10,14 @@ hvilket skuespill det skjedde.
 
 def findCoActors(actorName):
     try:
+        # connect to the database
         con = sqlite3.connect("src/DB2.db")
         cursor = con.cursor()
     except Exception as e:
         print(f"Error: {str(e)}")
         return
     
+    # retrieving the co-actors for the given actor from the database
     cursor.execute("""
                     SELECT DISTINCT Actor.Navn AS 'Skuespiller', CoActorInfo.Navn AS 'Medskuespiller', Skuespill.Tittel AS 'Teaterstykke'
                     FROM Person AS Actor
@@ -33,8 +35,10 @@ def findCoActors(actorName):
                     INNER JOIN Skuespill USING (Skuespill_ID)
                     WHERE Actor.PersonID != CoActorInfo.PersonID AND Actor.Navn = ?
                    """, (actorName,))
+    
     coActorsList = cursor.fetchall()
 
+    # if no co-actors are found for the given actor
     if len(coActorsList) == 0:
         isActor = cursor.execute("""
                                 SELECT COUNT(PersonID)
@@ -49,9 +53,11 @@ def findCoActors(actorName):
            print(f"{actorName} har ikke spilt med noen medskuespillere for noe skuespill")
            return
 
+    # Print the header of the table
     print(f'{"Skuespiller".center(35)} | {"Medskuespiller".center(35)} | {"Teaterstykke".center(35)}')
     print("   " + "-" * 35 * 3)
 
+    # Print the details of each co-actor
     for coActorPair in coActorsList:
            actor, coActor, playTitle = coActorPair
            print(f'{actor.center(35)} | {coActor.center(35)} | {playTitle.center(35)}')
