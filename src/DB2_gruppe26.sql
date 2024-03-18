@@ -1,5 +1,5 @@
 -- sletter eksisterende tabeller
-
+/*
 drop table ForestillingBillett;
 drop table HarBillettType;
 drop table Billett;
@@ -24,7 +24,7 @@ drop table Kunde;
 drop table Rolle;
 drop table Forfatter;
 drop table Person;
-
+*/
 -- oppretter tabeller
 
 create table Person(
